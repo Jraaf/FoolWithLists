@@ -61,7 +61,7 @@ namespace FoolWithLists
             bool turner = true;
             while (true)
             {
-                Console.Clear();
+               // Console.Clear();
                 Turn(Tdeck, ref P1, ref P2, ref cardNum, ref turner);
                 if (P1.Count == 0 || P2.Count == 0)
                 {
@@ -96,7 +96,7 @@ namespace FoolWithLists
             Card c1 = P1[act];
 
 
-            Console.Clear();
+            //Console.Clear();
 
             Console.Write($"it's player" + (turner ? 2 : 1) + "'s turn\n You have to beat");
             P1[act].ShowCard();
@@ -132,6 +132,7 @@ namespace FoolWithLists
                     }
                     else
                     {
+                        P2.RemoveAt(act1);
                         P1.Add(Tdeck[++cardNum]);
                         P2.Add(Tdeck[++cardNum]);
                     }
