@@ -36,18 +36,9 @@ namespace FoolWithLists
                 c.ShowCard();
                 Console.Write("\t");
             }
-            //Card[] P1 = new Card[6];
-            //Card[] P2 = new Card[6];
+
             List<Card> P1 =new List<Card>();
             List<Card> P2 = new List<Card>();
-            
-            /*
-            actions.FillDeck(deck, P1P2);
-            for (int i = 0; i < P1.GetLength(0); i++)
-            {
-                P1[i] = P1P2[i];
-                P2[i] = P1P2[i + 6];
-            }*/
 
 
             int cardNum = 0;
@@ -122,17 +113,14 @@ namespace FoolWithLists
             while (!beaten)
             {
                 if (act1 == -1)
-                {
+                {//taking card
                     P2.Add(c1);  
                     if (!(1 + cardNum > 35)) P1.Add(Tdeck[++cardNum]);
-                    //P1.RemoveAt(act);
-                    /*else                    
-                        P1.Add(Tdeck[++cardNum]); */
                     
                     beaten = true;
-                }//забирання карти
+                }
                 else if (c1.suit == P2[act1].suit && P2[act1].val > c1.val || !c1.ifTrump && P2[act1].ifTrump)
-                {
+                {//beating card
                     if (cardNum + 1 > Tdeck.Length - 1)
                     {
                         P1.RemoveAt(act);
@@ -156,7 +144,7 @@ namespace FoolWithLists
                     Console.WriteLine("WRONG CARD");
                     act1 = Action(P1) - 1;
                 }
-            }//побиття карти
+            }
             if (a)
             {
                 List<Card> temp = P1;
@@ -164,32 +152,8 @@ namespace FoolWithLists
                 P2 = temp;
             }
         }
-        public void LoseCard(ref Card[] P, int act)
-        {
-            Card[] temp = new Card[P.Length - 1];
-            int j = 0, nulls = 0;
-            for (int i = 0; i < P.Length - 1; i++)
-            {
-                if (i == act) continue;
-                temp[j] = P[i];
-                //if (temp[j] == null) nulls++;
-                j++;
-            }
-            /*if (nulls != 0)
-            {
-                Card[] NoNulls = new Card[temp.Length - nulls];
-                int k = 0;
-                for (int i = 0; i < temp.Length - nulls; i++)
-                {
-                    if (temp[i] == null) continue;
-                    NoNulls[k++] = temp[i];
-                }
-                temp = NoNulls;
-            }*/
-            P = temp;
-        }
         public int Action(List<Card> p)
-        {
+        {//choosing action (picking a card or taking a card)
             Console.WriteLine($"choose option: 1...{p.Count}; 0 to take cards");
             int a;
             try

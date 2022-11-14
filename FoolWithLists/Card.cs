@@ -10,7 +10,7 @@ namespace FoolWithLists
         public int suit { get; set; }
         public int val { get; set; }
         public bool ifTrump { get; set; }
-        public bool ifTaken = false;
+
         public Card(int suit, int power, bool ifTrump)
         {
             this.suit = suit;
