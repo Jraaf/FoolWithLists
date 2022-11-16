@@ -16,22 +16,21 @@ namespace FoolWithLists
             int NumOfCards = 36;
             Card actions = new Card();
 
-            Card[,] deck = new Card[4, NumOfCards / 4];
+            //Card[,] deck = new Card[4, NumOfCards / 4];
+            List<Card> Deck = new List<Card>();
             Random rand = new Random();
             int trump = rand.Next(0, 3);//визначення козиря
-            for (int i = 0; i < deck.GetLength(0); i++)
+            for (int suit = 0; suit < 4; suit++)
             {
-                int suitS = deck.GetLength(1) - 1;
-                for (int j = 0; j < deck.GetLength(1); j++)
+                for (int i = 0; i < NumOfCards/4; i++)
                 {
-                    deck[i, j] = new Card(i, j, i == trump);
-                    //deck[i, j].ShowCard();
-                }
-                //Console.WriteLine();
-            }// виведення колоди
-            Card[] Tdeck = ToOneD(deck);
-            Shuffle(rand, Tdeck);
-            foreach (Card c in Tdeck)
+                    Deck.Add(new Card(suit, i, suit == trump));
+                    //Console.WriteLine();
+                }// виведення колоди
+            }
+            
+            Shuffle(rand, ref Deck);
+            foreach (Card c in Deck)
             {
                 c.ShowCard();
                 Console.Write("\t");
@@ -44,8 +43,8 @@ namespace FoolWithLists
             int cardNum = 0;
             for (int i = 0; i < 6; i++)
             {
-                P1.Add(Tdeck[cardNum++]);
-                P2.Add(Tdeck[cardNum++]);
+                P1.Add(Deck[cardNum++]);
+                P2.Add(Deck[cardNum++]);
             }
 
             Console.WriteLine("\nplayer 1:");
@@ -62,7 +61,7 @@ namespace FoolWithLists
             while (true)
             {
                 Console.Clear();
-                Turn(Tdeck, ref P1, ref P2, ref cardNum, ref turner);
+                Turn(Deck, ref P1, ref P2, ref cardNum, ref turner);
                 if (P1.Count == 0 || P2.Count == 0)
                 {
                     Console.WriteLine(P1.Count == 0 ? "Player1 won" : P2.Count == 0 ? "Player2 won" : "");
@@ -72,7 +71,7 @@ namespace FoolWithLists
 
             Console.ReadLine();
         }
-        public void Turn(Card[] Tdeck, ref List<Card> P1, ref List<Card> P2, ref int cardNum, ref bool turner)
+        public void Turn(List<Card> Tdeck, ref List<Card> P1, ref List<Card> P2, ref int cardNum, ref bool turner)
         {
             bool a = false;
             if (!turner)
@@ -121,7 +120,7 @@ namespace FoolWithLists
                 }
                 else if (c1.suit == P2[act1].suit && P2[act1].val > c1.val || !c1.ifTrump && P2[act1].ifTrump)
                 {//beating card
-                    if (cardNum + 1 > Tdeck.Length - 1)
+                    if (cardNum + 1 > Tdeck.Count - 1)
                     {
                         P1.RemoveAt(act);
                         P2.RemoveAt(act1); 
@@ -171,31 +170,16 @@ namespace FoolWithLists
             return a;
         }
 
-        public Card[] Shuffle(Random rng, Card[] array)
+        public void Shuffle(Random rng, ref List<Card> Deck)
         {
-            int n = array.Length;
+            int n = Deck.Count;
             while (n > 1)
             {
                 int k = rng.Next(n--);
-                Card temp = array[n];
-                array[n] = array[k];
-                array[k] = temp;
+                Card temp = Deck[n];
+                Deck[n] = Deck[k];
+                Deck[k] = temp;
             }
-            return array;
-        }
-        public Card[] ToOneD(Card[,] deck)
-        {
-            Card[] temp = new Card[deck.Length];
-            int k = 0;
-            for (int i = 0; i < deck.GetLength(0); i++)
-            {
-                for (int j = 0; j < deck.GetLength(1); j++)
-                {
-                    temp[k] = deck[i, j];
-                    k++;
-                }
-            }
-            return temp;
         }
     }
 }
