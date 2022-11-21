@@ -35,6 +35,6 @@ namespace FoolWithLists
         }
 
         public enum Suits { clubs, diamonds, hearts, spades }
-        public enum Value { _6, _7, _8, _9, _10, J, Q, K, A }
+        public enum Value { _2,_3,_4,_5,_6, _7, _8, _9, _10, J, Q, K, A }
     }
 }

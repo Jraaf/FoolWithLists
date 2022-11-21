@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +16,29 @@ namespace FoolWithLists
         {
             Random random = new Random();
             int NumOfCards = 36;
+            while (true)
+            {
+                Console.Write("Enter number of cards (24/36/52): ");
+                try
+                {
+                    NumOfCards = int.Parse(Console.ReadLine());
+                    if (NumOfCards == 36 || NumOfCards == 52 || NumOfCards == 24) break;
+                    else throw new Exception();
+                }
+                catch (Exception) { }                
+            }
             Card actions = new Card();
 
             //Card[,] deck = new Card[4, NumOfCards / 4];
             List<Card> Deck = new List<Card>();
             Random rand = new Random();
             int trump = rand.Next(0, 3);//визначення козиря
+            int pow = NumOfCards == 36 ? 4 : NumOfCards == 52 ? 0 : 8;
             for (int suit = 0; suit < 4; suit++)
             {
                 for (int i = 0; i < NumOfCards/4; i++)
                 {
-                    Deck.Add(new Card(suit, i, suit == trump));
+                    Deck.Add(new Card(suit, pow+i, suit == trump));
                     //Console.WriteLine();
                 }// виведення колоди
             }
@@ -114,7 +128,7 @@ namespace FoolWithLists
                 if (act1 == -1)
                 {//taking card
                     P2.Add(c1);  
-                    if (!(1 + cardNum > 35)) P1.Add(Tdeck[++cardNum]);
+                    if (!(1 + cardNum > Tdeck.Count-1)) P1.Add(Tdeck[++cardNum]);
                     
                     beaten = true;
                 }
@@ -122,7 +136,6 @@ namespace FoolWithLists
                 {//beating card
                     if (cardNum + 1 > Tdeck.Count - 1)
                     {
-                        P1.RemoveAt(act);
                         P2.RemoveAt(act1); 
                     }
                     else if (P2.Count > 6)
